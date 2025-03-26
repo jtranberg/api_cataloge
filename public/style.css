@@ -1,0 +1,430 @@
+
+      /* Color Palette Styling */
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #1a1a1a7a;
+        color: #ffffff;
+        display: flex;
+      }
+
+      /* Sidebar Navigation */
+      .sidebar {
+        width: 15%;
+        background-color: #807d7d95;
+        padding: 10px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
+        border-right: 2px solid #444;
+      }
+      .sidebar h1 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #fff;
+        text-align: center;
+      }
+      .category-list button {
+        display: block;
+        width: 90%;
+        padding: 3px;
+        margin-bottom: 3px;
+        background-color: #767474;
+        border: 333;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+      .category-list button:hover {
+        background-color: #a3a0a0a1;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 16%;
+        padding: 20px;
+        flex-grow: 1;
+        text-align: center;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+        padding: 20px;
+        /* max-width: 1200px; */
+        margin: auto;
+      }
+
+      /* Product Cards */
+      .product-item {
+        background: #7d7b7bcd;
+        padding: 2px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+        color: #ffffff;
+        border: 1px solid #292828;
+      }
+      .product-item img {
+        max-width: 90%;
+        margin-top: 10px;
+        border-radius: 5px;
+      }
+
+      .product-item:hover {
+        background: #bbb9b9;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        border-color: #666;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(133, 131, 131, 0.7);
+        justify-content: center;
+        align-items: center;
+        overflow: auto; /* ✅ allows scroll if modal overflows */
+        padding: 40px 20px; /* ✅ optional spacing */
+      }
+
+      .modal-content {
+        background: #b9b8b8;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 900px;
+        max-height: 90vh; /* ✅ prevents the modal from going off-screen */
+        overflow-y: auto; /* ✅ enables scroll inside modal */
+        text-align: center;
+        position: relative;
+        color: white;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-content ul {
+        color: #fff;
+      }
+      .modal-content p {
+        color: #fff;
+      }
+
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+        color: white;
+      }
+      .close-button:hover {
+        color: #2b2626;
+      } /* Modal Layout: Image on the Left, Details on the Right */
+
+      /* Modal Flexbox Layout */
+      .modal-layout {
+        display: flex;
+        flex-direction: row; /* Keep the left and right sections side by side */
+        gap: 2rem; /* Optional: space between columns */
+      }
+
+      .image-layout {
+        display: flex;
+        flex-direction: row; /* This is the magic line */
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .thumbnail-column {
+        display: flex;
+        flex-direction: column; /* Stack thumbnails vertically */
+        gap: 10px;
+        width: 70px; /* Add a fixed width to help layout */
+        flex-shrink: 0;
+      }
+
+      .main-image-frame img {
+        max-width: 400px;
+        width: 100%;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+
+      .thumbnail-column img:hover {
+        border-color: #1111d3;
+      }
+
+      .main-image-frame img {
+        max-width: 80%;
+        border-radius: 10px;
+      }
+
+      .modal-image-container {
+        display: flex;
+        flex-direction: column; /* Stack thumbnails, image, and description */
+        align-items: center;
+      }
+
+      /* Right: Product Details */
+      .modal-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* Color Palette */
+      .color-palette {
+        display: flex;
+        flex-wrap: wrap; /* 🔥 add this */
+        gap: 10px;
+        margin: 10px 0;
+      }
+      .color-swatch {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        border: 2px solid #444;
+        transition: 0.3s;
+        margin: 5px;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+      }
+
+      .color-swatch:hover,
+      .selected-color {
+        border-color: #ffffff;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      /* Size Buttons */
+      .size-selection {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+      }
+      .size-btn {
+        background-color: #444;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .size-btn:hover,
+      .selected-size {
+        background-color: #ff5e5e;
+      }
+      .product-description {
+        margin-top: 1rem;
+        color: #cecbcb;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        width: 100%;
+        text-align: left;
+        padding: 0 10px;
+      }
+
+      .size-tag {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 4px 6px;
+        background: #eee;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        color: #333;
+        border: 1px solid #ccc;
+        cursor: pointer; /* 👈 this is the magic */
+        transition: 0.2s ease;
+      }
+
+      .size-tag:hover {
+        background-color: #ddd;
+      }
+
+      .selected-size {
+        background-color: #ff5e5e;
+        color: white;
+        border-color: #ff5e5e;
+      }
+
+      .stacked-card {
+        background-color: #7f7d7da4;
+        border-radius: 10px;
+        padding-top: 20px;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        height: 125px;
+        border: 2px solid #333;
+        transition: all 0.4s ease-in-out;
+        transform: scale(1);
+      }
+
+      .stacked-card img {
+        width: auto;
+        height: auto;
+        margin-bottom: 12px;
+        filter: brightness(0) invert(1); /* Optional: makes it white for dark mode */
+      }
+
+      .stacked-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 25px rgba(253, 253, 253, 0.685);
+        background: #a5a4a4bb;
+      }
+
+      #brand-list {
+        transition: all 0.6s ease-in-out; /* smooth animation for any changes */
+      }
+
+      #brand-list.stacked {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        transition: all 0.6s ease-in-out; /* make sure the stacked state also transitions smoothly */
+      }
+      .stacked-logo {
+        width: 200px;
+        margin-bottom: 10px;
+      }
+      .ss-logo {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      }
+      /* BRAND STACKING */
+      #brand-list.transitioning {
+        opacity: 0;
+        transform: scale(0);
+        transition: all 1s ease-in-out;
+        pointer-events: none;
+      }
+
+      #brand-list.transitioned {
+        opacity: 1;
+        transform: scale(1);
+        transition: all 1s ease-in-out;
+        pointer-events: auto;
+      }
+      .loader {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #555;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 10px auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .spinner-wrapper {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        text-align: center;
+        font-size: 1rem;
+        color: #ccc;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      /* Optional fade-in effect */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Skeleton Loader Animation */
+      @keyframes pulse {
+        0% {
+          background-color: #3a3a3a;
+        }
+        50% {
+          background-color: #4a4a4a;
+        }
+        100% {
+          background-color: #3a3a3a;
+        }
+      }
+
+      .placeholder-card {
+        background: #2e2e2e;
+        border-radius: 8px;
+        padding: 10px;
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: pulse 1.2s infinite ease-in-out;
+      }
+
+      .placeholder-image {
+        width: 80%;
+        height: 120px;
+        border-radius: 6px;
+        background-color: #444;
+        margin-bottom: 10px;
+      }
+
+      .placeholder-line {
+        height: 10px;
+        width: 70%;
+        border-radius: 4px;
+        background-color: #555;
+        margin: 4px 0;
+      }
+      /* Sidebar category skeleton */
+      .category-placeholder {
+        height: 20px;
+        width: 90%;
+        margin: 6px auto;
+        border-radius: 6px;
+        background-color: #444;
+        animation: pulse 1.2s infinite ease-in-out;
+      }
+    
