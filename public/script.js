@@ -3,7 +3,7 @@
         const API_BASE =
           window.location.hostname === "localhost"
             ? "http://localhost:3000"
-            : "https://render-z7ii.onrender.com";
+            : "https://api-cataloge.onrender.com";
 
         const productSet = new Map(); // 🌟 To store unique products (avoid duplicates)
 
