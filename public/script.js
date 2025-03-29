@@ -16,16 +16,13 @@
             // ✅ Show category placeholders
             showCategoryPlaceholders(19);
 
-            const response = await fetch(`${API_BASE}/styles`);
-            if (!response.ok) throw new Error("Failed to fetch styles.");
-
+            const response = await fetch(`${API_BASE}/categories`);
+            if (!response.ok) throw new Error("Failed to fetch categories.");
             const data = await response.json();
-
-            const uniqueCategories = [
-              ...new Set(data.styles.map((style) => style.baseCategory)),
-            ];
-
+            
+            const uniqueCategories = data.categories.map((cat) => cat.name);
             renderCategories(uniqueCategories);
+            
           } catch (error) {
             console.error("❌ Error fetching categories:", error);
           } finally {
