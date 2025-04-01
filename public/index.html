@@ -8,76 +8,81 @@
     
   </head>
   <body>
-    <div class="sidebar">
-      <h1>Categories</h1>
+     <!-- 🔥 Hamburger Toggle (visible on small screens) -->
+<button class="menu-toggle" onclick="toggleSidebar()">☰ Categories</button>
 
-      <!-- Spinner -->
-      <div
-        id="category-spinner"
-        class="spinner-wrapper"
-        style="display: none; padding: 10px 0"
-      >
-        <div class="loader" style="margin: auto"></div>
-      </div>
+<!-- ✅ Sidebar Navigation -->
+<div class="sidebar" id="sidebar">
+  <h1>Categories</h1>
 
-      <div class="category-list" id="category-list"></div>
-    </div>
+  <!-- Spinner -->
+  <div
+    id="category-spinner"
+    class="spinner-wrapper"
+    style="display: none; padding: 10px 0"
+  >
+    <div class="loader" style="margin: auto"></div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      <h1>Brands Available</h1>
+  <!-- Category List -->
+  <div class="category-list" id="category-list"></div>
+</div>
 
-      <!-- Brand Grid -->
-      <div class="grid-container" id="brand-list">Loading brands...</div>
+<!-- ✅ Main Content Area -->
+<div class="main-content">
+  <h1>Brands Available</h1>
 
-      <!-- ✅ Spinner (centered and styled) -->
-      <div id="spinner" class="spinner-wrapper">
-        <div class="loader"></div>
-        <p id="loading-message"></p>
-      </div>
+  <!-- Brand Grid -->
+  <div class="grid-container" id="brand-list">Loading brands...</div>
 
-      <!-- ✅ Product Section stays inside main-content -->
-      <h2 id="brand-title"></h2>
-      <div class="grid-container" id="product-list"></div>
-    </div>
+  <!-- Spinner for loading products -->
+  <div id="spinner" class="spinner-wrapper">
+    <div class="loader"></div>
+    <p id="loading-message"></p>
+  </div>
 
-    <!-- Modal Structure -->
-    <div id="product-modal" class="modal">
-      <div class="modal-content">
-        <span class="close-button" onclick="closeModal()">&times;</span>
+  <!-- Products from Selected Brand or Category -->
+  <h2 id="brand-title"></h2>
+  <div class="grid-container" id="product-list"></div>
+</div>
 
-        <div class="modal-layout">
-          <!-- Left: Product Image Only -->
-          <div class="modal-image-container">
-            <div class="image-layout">
-              <div class="thumbnail-column" id="thumbnail-column"></div>
-              <div class="main-image-frame">
-                <img id="modal-image" src="" alt="Product Image" />
-              </div>
-            </div>
-          </div>
+<!-- ✅ Modal for Product Details -->
+<div id="product-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeModal()">&times;</span>
 
-          <!-- Right: Product Details -->
-          <div class="modal-details">
-            <h2 id="modal-title"></h2>
-            <p><strong>Brand:</strong> <span id="modal-brand"></span></p>
-            <p>
-              <strong>SKU:</strong>
-              <span id="modal-sku">Select size & color</span>
-            </p>
-
-            <p><strong>Colors:</strong></p>
-            <div class="color-palette" id="color-options"></div>
-            <p><strong>Sizes:</strong></p>
-            <div id="modal-sizes" class="product-sizes"></div>
-            <p><strong>Price:</strong> $<span id="modal-price"></span></p>
+    <div class="modal-layout">
+      <!-- Left: Product Images -->
+      <div class="modal-image-container">
+        <div class="image-layout">
+          <div class="thumbnail-column" id="thumbnail-column"></div>
+          <div class="main-image-frame">
+            <img id="modal-image" src="" alt="Product Image" />
           </div>
         </div>
+      </div>
 
-        <!-- Description -->
-        <p id="modal-description" class="product-description"></p>
+      <!-- Right: Product Info -->
+      <div class="modal-details">
+        <h2 id="modal-title"></h2>
+        <p><strong>Brand:</strong> <span id="modal-brand"></span></p>
+        <p><strong>SKU:</strong> <span id="modal-sku">Select size & color</span></p>
+
+        <p><strong>Colors:</strong></p>
+        <div class="color-palette" id="color-options"></div>
+
+        <p><strong>Sizes:</strong></p>
+        <div id="modal-sizes" class="product-sizes"></div>
+
+        <p><strong>Price:</strong> $<span id="modal-price"></span></p>
       </div>
     </div>
+
+    <!-- Product Description -->
+    <p id="modal-description" class="product-description"></p>
+  </div>
+</div>
+<a href="/" id="backToHomeBtn">← Back to Home</a>
 
     <script src="script.js" defer></script>
   </body>
