@@ -1,177 +1,320 @@
- /* Color Palette Styling */
- * {
+/* =====================================================
+   ROOT VARIABLES
+   ===================================================== */
+
+:root {
+  --sidebar-width: 260px;
+}
+
+/* =====================================================
+   GLOBAL RESET
+   ===================================================== */
+
+* {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
   background-color: #cdc7c7c0;
   color: #555353;
   display: flex;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Sidebar Navigation */
+/* =====================================================
+   SIDEBAR NAVIGATION
+   ===================================================== */
+
 .sidebar {
-  width: 20%;
   background-color: #f5f1f1e0;
-  padding: 10px;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  overflow-y: auto;
   border-right: 2px solid #444;
+  height: 100vh;
+  left: 0;
+  overflow-y: auto;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  width: var(--sidebar-width);
 }
+
 .sidebar h1 {
+  color: #282727;
   font-size: 16px;
   margin-bottom: 5px;
-  color: #282727;
   text-align: center;
 }
+
+/* =====================================================
+   CATEGORY LIST
+   ===================================================== */
+
 .category-list button {
-  display: block;
-  width: 80%;
-  padding: 3px;
-  margin-bottom: 3px;
   background-color: #f7f4f4;
-  border: 333;
-  color: rgb(28, 25, 25);
-  font-size: 18px;
-  cursor: pointer;
-  text-align: center;
+  border: 1px solid #333;
   border-radius: 5px;
+  color: rgb(28, 25, 25);
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  margin-bottom: 3px;
+  padding: 3px;
+  text-align: center;
   transition: background 0.3s;
+  width: 80%;
 }
+
 .category-list button:hover {
   background-color: #a3a0a0a1;
 }
 
-/* Main Content */
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
 .main-content {
-  margin-left: 16%;
-  padding: 20px;
   flex-grow: 1;
+  margin-left: var(--sidebar-width);
+  padding: 20px;
   text-align: center;
+  width: calc(100% - var(--sidebar-width));
 }
+
 .grid-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 20px;
+  justify-content: center;
   padding: 20px;
 }
 
-/* Product Cards */
+/* =====================================================
+   PRODUCT CARDS
+   ===================================================== */
+
 .product-item {
-  width: 150px; /* or whatever you want */
-  min-height: 200px;
   background: #fffbfbe6;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 2px 2px 10px rgba(62, 62, 62, 0.236);
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-  color: #4b4949;
   border: 1px solid #292828;
-
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(62, 62, 62, 0.236);
+  color: #4b4949;
+  cursor: pointer;
   font-size: 1rem;
-}
-
-.product-item img {
-  max-width: 95%;
-  height: auto;
-  margin: 10px auto;
-  border-radius: 6px;
-  display: block;
+  min-height: 200px;
+  padding: 10px;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+  width: 150px;
 }
 
 .product-item:hover {
   background: #bbb9b9;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
   border-color: #666;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
 }
 
-/* Modal Styles */
+.product-item img {
+  border-radius: 6px;
+  display: block;
+  height: auto;
+  margin: 10px auto;
+  max-width: 95%;
+}
+
+/* =====================================================
+   BRAND CARDS
+   ===================================================== */
+
+.brand-card {
+  background: #fffefe;
+  border: 1px solid #292828;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  color: #575353;
+  cursor: pointer;
+  margin: 1px;
+  max-width: 100%;
+  min-height: 100px;
+  padding: 8px;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+  width: 150px;
+}
+
+.brand-card img {
+  display: block;
+  margin: 10px auto;
+  max-width: 80%;
+}
+
+/* =====================================================
+   BRAND STACKING
+   ===================================================== */
+
+#brand-list {
+  transition: all 0.6s ease-in-out;
+}
+
+#brand-list.stacked {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  transition: all 0.6s ease-in-out;
+}
+
+#brand-list.transitioned {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+  transition: all 1s ease-in-out;
+}
+
+#brand-list.transitioning {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+  transition: all 1s ease-in-out;
+}
+
+.stacked-card {
+  align-items: center;
+  background-color: #efececee;
+  border: 2px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  color: rgb(87, 84, 84);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  font-weight: bold;
+  height: 125px;
+  justify-content: center;
+  padding-top: 20px;
+  text-align: center;
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+  width: 30%;
+}
+
+.stacked-card:hover {
+  background: #c2bebebb;
+  box-shadow: 0 0 25px rgba(253, 253, 253, 0.685);
+  transform: scale(1.03);
+}
+
+.stacked-card img {
+  filter: brightness(0);
+  height: auto;
+  margin-bottom: 12px;
+  width: auto;
+}
+
+.stacked-logo {
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.ss-logo {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.866));
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* =====================================================
+   MODAL BASE
+   ===================================================== */
+
 .modal {
+  align-items: center;
+  background-color: rgba(253, 248, 248, 0.884);
   display: none;
-  position: fixed;
-  z-index: 1000;
+  height: 100%;
+  justify-content: center;
   left: 0;
+  overflow: auto;
+  padding: 40px 20px;
+  position: fixed;
   top: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(253, 248, 248, 0.884);
-  justify-content: center;
-  align-items: center;
-  overflow: auto; /* ✅ allows scroll if modal overflows */
-  padding: 40px 20px; /* ✅ optional spacing */
+  z-index: 1000;
 }
 
 .modal-content {
   background: #f3f0f0;
-  padding: 20px;
+  border: 2px solid #333;
   border-radius: 8px;
-  width: 90%;
-  max-width: 900px;
-  max-height: 90vh; /* ✅ prevents the modal from going off-screen */
-  overflow-y: auto; /* ✅ enables scroll inside modal */
-  text-align: center;
-  position: relative;
   color: rgb(36, 35, 35);
   display: flex;
   flex-direction: column;
-  border: 2px #333;
+  max-height: 90vh;
+  max-width: 900px;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  width: 90%;
+}
+
+.modal-content p {
+  color: #585454;
 }
 
 .modal-content ul {
   color: #363434;
 }
-.modal-content p {
-  color: #585454;
-}
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
-  cursor: pointer;
   color: rgb(117, 114, 114);
+  cursor: pointer;
+  font-size: 22px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
+
 .close-button:hover {
   color: #2b2626;
-} /* Modal Layout: Image on the Left, Details on the Right */
+}
 
-/* Modal Flexbox Layout */
+/* =====================================================
+   MODAL LAYOUT
+   ===================================================== */
+
 .modal-layout {
   display: flex;
-  flex-direction: row; /* Keep the left and right sections side by side */
-  gap: 2rem; /* Optional: space between columns */
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.modal-image-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .image-layout {
-  display: flex;
-  flex-direction: row; /* This is the magic line */
   align-items: flex-start;
+  display: flex;
+  flex-direction: row;
   gap: 12px;
 }
 
 .thumbnail-column {
   display: flex;
-  flex-direction: column; /* Stack thumbnails vertically */
-  gap: 10px;
-  width: 70px; /* Add a fixed width to help layout */
+  flex-direction: column;
   flex-shrink: 0;
-}
-
-.main-image-frame img {
-  max-width: 400px;
-  width: 100%;
-  border-radius: 10px;
-  object-fit: contain;
+  gap: 10px;
+  width: 70px;
 }
 
 .thumbnail-column img:hover {
@@ -179,43 +322,49 @@ body {
 }
 
 .main-image-frame img {
-  max-width: 80%;
   border-radius: 10px;
+  max-width: 80%;
+  object-fit: contain;
+  width: 100%;
 }
 
-.modal-image-container {
-  display: flex;
-  flex-direction: column; /* Stack thumbnails, image, and description */
-  align-items: center;
+/* =====================================================
+   PRODUCT DESCRIPTION
+   ===================================================== */
+
+.product-description {
+  color: #cecbcb;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+  padding: 0 10px;
+  text-align: left;
+  width: 100%;
 }
 
-/* Right: Product Details */
-.modal-details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* =====================================================
+   COLOR PALETTE
+   ===================================================== */
 
-/* Color Palette */
 .color-palette {
   display: flex;
-  flex-wrap: wrap; /* 🔥 add this */
+  flex-wrap: wrap;
   gap: 10px;
   margin: 10px 0;
 }
+
 .color-swatch {
-  width: 30px;
-  height: 30px;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  border: 2px solid #444;
   border-radius: 50%;
   cursor: pointer;
   display: inline-block;
-  border: 2px solid #444;
-  transition: 0.3s;
+  height: 30px;
   margin: 5px;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
+  transition: 0.3s;
+  width: 30px;
 }
 
 .color-swatch:hover,
@@ -224,45 +373,41 @@ body {
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* Size Buttons */
+/* =====================================================
+   SIZE SELECTION
+   ===================================================== */
+
 .size-selection {
   display: flex;
   gap: 10px;
   margin: 10px 0;
 }
+
 .size-btn {
   background-color: #444;
-  color: white;
   border: none;
-  padding: 8px 12px;
   border-radius: 5px;
+  color: white;
   cursor: pointer;
+  padding: 8px 12px;
   transition: 0.3s;
 }
+
 .size-btn:hover,
 .selected-size {
   background-color: #ff5e5e;
 }
-.product-description {
-  margin-top: 1rem;
-  color: #cecbcb;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  width: 100%;
-  text-align: left;
-  padding: 0 10px;
-}
 
 .size-tag {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 4px 6px;
   background: #eee;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  color: #333;
   border: 1px solid #ccc;
-  cursor: pointer; /* 👈 this is the magic */
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin: 4px 6px;
+  padding: 6px 12px;
   transition: 0.2s ease;
 }
 
@@ -272,227 +417,170 @@ body {
 
 .selected-size {
   background-color: #ff5e5e;
-  color: white;
   border-color: #ff5e5e;
+  color: white;
 }
 
-.stacked-card {
-  background-color: #efececee;
-  border-radius: 10px;
-  padding-top: 20px;
-  color: rgb(87, 84, 84);
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease;
+/* =====================================================
+   LOADERS
+   ===================================================== */
+
+.loader {
+  animation: spin 1s linear infinite;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #555;
+  height: 30px;
+  margin: 10px auto;
+  width: 30px;
+}
+
+.spinner-wrapper {
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  color: #ccc;
+  display: none;
+  flex-direction: column;
+  font-size: 1rem;
+  justify-content: center;
+  padding: 30px;
   text-align: center;
+}
+
+/* =====================================================
+   SKELETON PLACEHOLDERS
+   ===================================================== */
+
+.placeholder-card {
+  align-items: center;
+  animation: pulse 1.2s infinite ease-in-out;
+  background: #2e2e2e;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 30%;
-  height: 125px;
-  border: 2px solid #333;
-  transition: all 0.4s ease-in-out;
-  transform: scale(1);
+  height: 220px;
+  padding: 10px;
 }
 
-.stacked-card img {
-  width: auto;
-  height: auto;
-  margin-bottom: 12px;
-  filter: brightness(0) ;  /*Optional: makes it white for dark mode */
-}
-
-.stacked-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(253, 253, 253, 0.685);
-  background: #c2bebebb;
-}
-
-#brand-list {
-  transition: all 0.6s ease-in-out; /* smooth animation for any changes */
-}
-
-#brand-list.stacked {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  transition: all 0.6s ease-in-out; /* make sure the stacked state also transitions smoothly */
-}
-.stacked-logo {
-  width: 200px;
+.placeholder-image {
+  background-color: #444;
+  border-radius: 6px;
+  height: 120px;
   margin-bottom: 10px;
-}
-.ss-logo {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
- 
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.866));
-}
-/* BRAND STACKING */
-#brand-list.transitioning {
-  opacity: 0;
-  transform: scale(0);
-  transition: all 1s ease-in-out;
-  pointer-events: none;
+  width: 80%;
 }
 
-#brand-list.transitioned {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 1s ease-in-out;
-  pointer-events: auto;
+.placeholder-line {
+  background-color: #555;
+  border-radius: 4px;
+  height: 10px;
+  margin: 4px 0;
+  width: 70%;
 }
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #555;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-  margin: 10px auto;
+
+.category-placeholder {
+  animation: pulse 1.2s infinite ease-in-out;
+  background-color: #444;
+  border-radius: 6px;
+  height: 20px;
+  margin: 6px auto;
+  width: 90%;
+}
+
+/* =====================================================
+   BACK TO HOME BUTTON
+   ===================================================== */
+
+#backToHomeBtn {
+  background-color: #222 !important;
+  border-radius: 8px !important;
+  bottom: 20px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  padding: 12px 16px !important;
+  position: fixed !important;
+  right: 20px !important;
+  text-decoration: none !important;
+  transition: background-color 0.3s ease, transform 0.2s ease !important;
+  z-index: 9999 !important;
+}
+
+#backToHomeBtn:hover {
+  background-color: #444 !important;
+  transform: scale(1.05) !important;
+}
+
+/* =====================================================
+   MOBILE NAVIGATION
+   ===================================================== */
+
+.menu-toggle {
+  background: #444;
+  border: none;
+  color: white;
+  display: none;
+  font-size: 18px;
+  padding: 12px 16px;
+  text-align: left;
+  width: 100%;
+  z-index: 1001;
+}
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #3a3a3a;
+  }
+
+  50% {
+    background-color: #4a4a4a;
+  }
+
+  100% {
+    background-color: #3a3a3a;
+  }
 }
 
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
-.spinner-wrapper {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-  text-align: center;
-  font-size: 1rem;
-  color: #ccc;
-  animation: fadeIn 0.3s ease-in-out;
-}
 
-/* Optional fade-in effect */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* =====================================================
+   RESPONSIVE: SMALL SCREENS
+   ===================================================== */
 
-/* Skeleton Loader Animation */
-@keyframes pulse {
-  0% {
-    background-color: #3a3a3a;
-  }
-  50% {
-    background-color: #4a4a4a;
-  }
-  100% {
-    background-color: #3a3a3a;
-  }
-}
-
-.placeholder-card {
-  background: #2e2e2e;
-  border-radius: 8px;
-  padding: 10px;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: pulse 1.2s infinite ease-in-out;
-}
-
-.placeholder-image {
-  width: 80%;
-  height: 120px;
-  border-radius: 6px;
-  background-color: #444;
-  margin-bottom: 10px;
-}
-
-.placeholder-line {
-  height: 10px;
-  width: 70%;
-  border-radius: 4px;
-  background-color: #555;
-  margin: 4px 0;
-}
-/* Sidebar category skeleton */
-.category-placeholder {
-  height: 20px;
-  width: 90%;
-  margin: 6px auto;
-  border-radius: 6px;
-  background-color: #444;
-  animation: pulse 1.2s infinite ease-in-out;
-}
-
-.brand-card {
-  background: #fffefe;
-  padding: 8px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-  color: #575353;
-  border: 1px solid #292828;
-
-  /* 💥 FIXED WIDTH (just like product-item) */
-  width: 150px;
-  max-width: 100%;
-  min-height: 100px;
-  margin: 1px;
-}
-
-.brand-card img {
-  max-width: 80%;
-  margin: 10px auto;
-  display: block;
-}
 @media screen and (max-width: 600px) {
   .product-item {
     width: 90%;
   }
 }
 
-.menu-toggle {
-  display: none;
-  background: #444;
-  color: white;
-  padding: 12px 16px;
-  font-size: 18px;
-  border: none;
-  width: 100%;
-  text-align: left;
-  z-index: 1001;
-}
-
+/* =====================================================
+   RESPONSIVE: MOBILE SIDEBAR
+   ===================================================== */
 
 @media screen and (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    width: 220px;
-    height: 100%;
-    top: 0;
-    left: -220px;
-    background-color: #333;
-    z-index: 1000;
-    transition: left 0.3s ease-in-out;
-  }
-
-  .sidebar.open {
-    left: 0;
-  }
-
   .main-content {
     margin-left: 0;
     width: 100%;
@@ -500,30 +588,23 @@ body {
 
   .menu-toggle {
     display: block;
+    left: 0;
     position: fixed;
     top: 0;
+  }
+
+  .sidebar {
+    background-color: #333;
+    height: 100%;
+    left: -220px;
+    position: fixed;
+    top: 0;
+    transition: left 0.3s ease-in-out;
+    width: 220px;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
     left: 0;
   }
-}
-
-
-#backToHomeBtn {
-position: fixed !important;
-bottom: 20px !important;
-right: 20px !important;
-background-color: #222 !important;
-color: #fff !important;
-text-decoration: none !important;
-padding: 12px 16px !important;
-font-size: 16px !important;
-border-radius: 8px !important;
-cursor: pointer !important;
-z-index: 9999 !important;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
-transition: background-color 0.3s ease, transform 0.2s ease !important;
-}
-
-#backToHomeBtn:hover {
-background-color: #444 !important;
-transform: scale(1.05) !important;
 }
