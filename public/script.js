@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
       : "https://render-z7ii.onrender.com";
 
   const productSet = new Map();
+  let allBrands = [];
 
   function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -97,6 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
         100
       );
 
+      collapseBrandCards();
+
       const response = await fetch(`${API_BASE}/products/${brandId}`);
       if (!response.ok) throw new Error("Failed to fetch products.");
 
@@ -117,7 +120,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!response.ok) throw new Error("Failed to fetch brands.");
 
       const data = await response.json();
-      renderBrands(data.brands);
+
+      allBrands = data.brands;
+      renderBrands(allBrands);
     } catch (error) {
       console.error("❌ Error fetching brands:", error);
     }
@@ -126,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderBrands(brands) {
     const brandList = document.getElementById("brand-list");
 
+    brandList.classList.remove("stacked");
     brandList.innerHTML = brands
       .map(
         (brand) => `
@@ -133,12 +139,50 @@ document.addEventListener("DOMContentLoaded", function () {
             ${
               brand.image
                 ? `<img src="https://www.ssactivewear.com/${brand.image}" alt="${brand.name}">`
-                : ""
+                : `<span>${brand.name}</span>`
             }
           </div>
         `
       )
       .join("");
+  }
+
+  function collapseBrandCards() {
+    const brandList = document.getElementById("brand-list");
+
+    brandList.classList.add("transitioning");
+    brandList.classList.remove("transitioned");
+
+    setTimeout(() => {
+      brandList.classList.add("stacked");
+
+      brandList.innerHTML = `
+        <button class="stacked-card brands-keep-shopping" type="button" onclick="expandBrandCards()">
+          Brands / Keep Shopping
+        </button>
+      `;
+
+      requestAnimationFrame(() => {
+        brandList.classList.remove("transitioning");
+        brandList.classList.add("transitioned");
+      });
+    }, 300);
+  }
+
+  function expandBrandCards() {
+    const brandList = document.getElementById("brand-list");
+
+    brandList.classList.add("transitioning");
+    brandList.classList.remove("transitioned");
+
+    setTimeout(() => {
+      renderBrands(allBrands);
+
+      requestAnimationFrame(() => {
+        brandList.classList.remove("transitioning");
+        brandList.classList.add("transitioned");
+      });
+    }, 300);
   }
 
   function showCategoryPlaceholders(count = 10) {
@@ -169,6 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("loading-message").textContent = "";
 
       showPlaceholderCards(12);
+      collapseBrandCards();
 
       const response = await fetch(`${API_BASE}/styles`);
       if (!response.ok) throw new Error("Failed to fetch styles.");
@@ -502,6 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("product-modal").style.display = "none";
   }
 
+  window.expandBrandCards = expandBrandCards;
   window.filterByCategory = filterByCategory;
   window.openModal = openModal;
   window.closeModal = closeModal;

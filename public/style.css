@@ -300,31 +300,60 @@ body {
 }
 
 .stacked-card {
-  align-items: center;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.065)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.449), rgba(255, 255, 255, 0.192)),
     var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   color: var(--foreground);
+
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  font-size: 1.5rem;
-  font-weight: bold;
-  height: 125px;
+  align-items: center;
   justify-content: center;
-  padding-top: 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-  width: 30%;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  min-height: 118px;
+  width: 165px;
+  padding: 14px;
+
+  position: relative;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.stacked-card::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.825),
+    transparent
+  );
+  content: "";
+  height: 1px;
+  left: 14px;
+  opacity: 0.85;
+  position: absolute;
+  right: 14px;
+  top: 0;
 }
 
 .stacked-card:hover {
-  background: var(--card-hover);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.699), rgba(255, 255, 255, 0.085)),
+    var(--card-hover);
   border-color: rgba(255, 255, 255, 0.45);
   box-shadow: var(--shadow-card), var(--shadow-glow);
-  transform: scale(1.04);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .stacked-card img,
@@ -708,3 +737,4 @@ body {
     left: 0;
   }
 }
+
