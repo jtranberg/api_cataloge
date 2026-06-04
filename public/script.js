@@ -19,16 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       showCategoryPlaceholders(19);
 
-      const response = await fetch(`${API_BASE}/styles`);
-      if (!response.ok) throw new Error("Failed to fetch styles.");
+      const response = await fetch(`${API_BASE}/categories`);
+      if (!response.ok) throw new Error("Failed to fetch categories.");
 
       const data = await response.json();
 
-      const uniqueCategories = [
-        ...new Set(data.styles.map((style) => style.baseCategory)),
-      ];
-
-      renderCategories(uniqueCategories);
+      renderCategories(data.categories || []);
     } catch (error) {
       console.error("❌ Error fetching categories:", error);
     } finally {
@@ -41,11 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const categoryList = document.getElementById("category-list");
 
     categoryList.innerHTML = categories
-      .map(
-        (category) => `
-          <button onclick="filterByCategory('${category}')">${category}</button>
-        `
-      )
+      .map((category) => {
+        const categoryName = category.name || category;
+
+        return `
+          <button onclick="filterByCategory('${categoryName}')">${categoryName}</button>
+        `;
+      })
       .join("");
   }
 
@@ -215,20 +213,17 @@ document.addEventListener("DOMContentLoaded", function () {
       showPlaceholderCards(12);
       collapseBrandCards();
 
-      const response = await fetch(`${API_BASE}/styles`);
-      if (!response.ok) throw new Error("Failed to fetch styles.");
+      const response = await fetch(
+        `${API_BASE}/styles/category/${encodeURIComponent(category)}`
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch category styles.");
 
       const data = await response.json();
 
-      const filteredProducts = data.styles.filter(
-        (style) =>
-          style.baseCategory.trim().toLowerCase() ===
-          category.trim().toLowerCase()
-      );
-
-      addUniqueProducts(filteredProducts);
+      addUniqueProducts(data.styles || []);
     } catch (error) {
-      console.error("❌ Error fetching styles:", error);
+      console.error("❌ Error fetching category styles:", error);
     }
   }
 
