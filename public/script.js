@@ -1,11 +1,10 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const API_BASE =
     window.location.hostname === "localhost"
       ? "http://localhost:3000"
       : "https://render-z7ii.onrender.com";
 
-  const productSet = new Map(); // 🌟 To store unique products (avoid duplicates)
+  const productSet = new Map();
 
   function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -14,11 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchCategories() {
     try {
-      // ✅ Show spinner
       const spinnerEl = document.getElementById("category-spinner");
       if (spinnerEl) spinnerEl.style.display = "flex";
 
-      // ✅ Show category placeholders
       showCategoryPlaceholders(19);
 
       const response = await fetch(`${API_BASE}/styles`);
@@ -34,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("❌ Error fetching categories:", error);
     } finally {
-      // ✅ Hide spinner
       const spinnerEl = document.getElementById("category-spinner");
       if (spinnerEl) spinnerEl.style.display = "none";
     }
@@ -42,11 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderCategories(categories) {
     const categoryList = document.getElementById("category-list");
+
     categoryList.innerHTML = categories
       .map(
         (category) => `
-      <button onclick="filterByCategory('${category}')">${category}</button>
-  `
+          <button onclick="filterByCategory('${category}')">${category}</button>
+        `
       )
       .join("");
   }
@@ -54,10 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function typeMessage(text, elementId, speed = 50) {
     const el = document.getElementById(elementId);
     el.textContent = "";
+
     let i = 0;
+
     const interval = setInterval(() => {
       el.textContent += text.charAt(i);
       i++;
+
       if (i >= text.length) clearInterval(interval);
     }, speed);
   }
@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (let i = 0; i < count; i++) {
       productList.innerHTML += `
-<div class="product-item placeholder-card">
-  <div class="placeholder-image"></div>
-  <div class="placeholder-line" style="width: 60%;"></div>
-  <div class="placeholder-line" style="width: 40%;"></div>
-  <div class="placeholder-line" style="width: 50%;"></div>
-</div>
-`;
+        <div class="product-item placeholder-card">
+          <div class="placeholder-image"></div>
+          <div class="placeholder-line" style="width: 60%;"></div>
+          <div class="placeholder-line" style="width: 40%;"></div>
+          <div class="placeholder-line" style="width: 50%;"></div>
+        </div>
+      `;
     }
   }
 
@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const productList = document.getElementById("product-list");
       const brandTitle = document.getElementById("brand-title");
 
-      productList.innerHTML = ""; // ✅ Clear old stuff
-      productSet.clear(); // ✅ Reset memory
+      productList.innerHTML = "";
+      productSet.clear();
 
       brandTitle.textContent = `Products from ${brandName}`;
       document.getElementById("loading-message").textContent = "";
@@ -96,8 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "loading-message",
         100
       );
-
-      stackBrandCards();
 
       const response = await fetch(`${API_BASE}/products/${brandId}`);
       if (!response.ok) throw new Error("Failed to fetch products.");
@@ -113,79 +111,44 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  let allBrands = [];
-
   async function fetchBrands() {
     try {
       const response = await fetch(`${API_BASE}/brands`);
       if (!response.ok) throw new Error("Failed to fetch brands.");
+
       const data = await response.json();
-      allBrands = data.brands; // 🌟 Save for reuse
       renderBrands(data.brands);
     } catch (error) {
       console.error("❌ Error fetching brands:", error);
     }
   }
 
-  function expandBrandCards() {
-    const brandList = document.getElementById("brand-list");
-
-    // Animate out
-    brandList.classList.add("transitioning");
-    brandList.classList.remove("transitioned");
-
-    setTimeout(() => {
-      brandList.classList.remove("stacked");
-      brandList.innerHTML = allBrands
-        .map(
-          (brand) => `
-  <div class="brand-card" onclick="fetchProducts('${brand.brandID}', '${
-            brand.name
-          }')">
-    ${
-      brand.image
-        ? `<img src="https://www.ssactivewear.com/${brand.image}" alt="${brand.name}">`
-        : ""
-    }
-  </div>`
-        )
-        .join("");
-
-      // Animate in
-      requestAnimationFrame(() => {
-        brandList.classList.remove("transitioning");
-        brandList.classList.add("transitioned");
-      });
-    }, 300);
-  }
-
   function renderBrands(brands) {
     const brandList = document.getElementById("brand-list");
+
     brandList.innerHTML = brands
       .map(
         (brand) => `
-      <div class="brand-card" onclick="fetchProducts('${
-        brand.brandID
-      }', '${brand.name}')">
-          
-          ${
-            brand.image
-              ? `<img src="https://www.ssactivewear.com/${brand.image}" alt="${brand.name}">`
-              : ""
-          }
-      </div>
-  `
+          <div class="brand-card" onclick="fetchProducts('${brand.brandID}', '${brand.name}')">
+            ${
+              brand.image
+                ? `<img src="https://www.ssactivewear.com/${brand.image}" alt="${brand.name}">`
+                : ""
+            }
+          </div>
+        `
       )
       .join("");
   }
 
   function showCategoryPlaceholders(count = 10) {
     const categoryList = document.getElementById("category-list");
+
     categoryList.innerHTML = `
-<div style="text-align:center; color:#ccc; font-size: 0.85rem; margin-bottom: 10px;">
-Loading categories...
-</div>
-`;
+      <div style="text-align:center; color:#ccc; font-size: 0.85rem; margin-bottom: 10px;">
+        Loading categories...
+      </div>
+    `;
 
     for (let i = 0; i < count; i++) {
       const skeleton = document.createElement("div");
@@ -198,23 +161,14 @@ Loading categories...
     try {
       document.getElementById("product-list").innerHTML =
         "<p>Loading products...</p>";
+
       document.getElementById(
         "brand-title"
       ).textContent = `Products in category: ${category}`;
+
       document.getElementById("loading-message").textContent = "";
 
       showPlaceholderCards(12);
-
-      const brandList = document.getElementById("brand-list");
-      brandList.classList.remove(
-        "stacked",
-        "transitioned",
-        "transitioning"
-      );
-      brandList.innerHTML = "";
-
-      // ✅ Always stack the cards after category is clicked
-      stackBrandCards();
 
       const response = await fetch(`${API_BASE}/styles`);
       if (!response.ok) throw new Error("Failed to fetch styles.");
@@ -236,48 +190,16 @@ Loading categories...
   function addUniqueProducts(products) {
     const productList = document.getElementById("product-list");
 
-    // ✅ Clear old product DOM and memory
     productList.innerHTML = "";
     productSet.clear();
 
-    // ✅ Add fresh products
     products.forEach((product) => {
       if (!productSet.has(product.styleID)) {
         productSet.set(product.styleID, product);
       }
     });
 
-    // ✅ Render updated product grid
     renderProducts();
-  }
-
-  function stackBrandCards() {
-    const brandList = document.getElementById("brand-list");
-
-    // Trigger fade out
-    brandList.classList.add("transitioning");
-    brandList.classList.remove("transitioned");
-
-    // Wait for animation before swapping content
-    setTimeout(() => {
-      brandList.classList.add("stacked");
-      brandList.innerHTML = `
-<div class="stacked-card" onclick="expandBrandCards()">
-  <img 
-    src="https://cdn.ssactivewear.com/cdn-cgi/image/quality=80,w=131,f=auto/images/sns/logos/logo-ca.png" 
-    alt="S&S Logo"
-    class="ss-logo"
-  />
-  <p>Catalogue</p>
-</div>
-`;
-
-      // Trigger fade in
-      requestAnimationFrame(() => {
-        brandList.classList.remove("transitioning");
-        brandList.classList.add("transitioned");
-      });
-    }, 300); // Matches transition duration
   }
 
   function escapeHTML(str) {
@@ -290,6 +212,7 @@ Loading categories...
           '"': "&quot;",
           "'": "&#039;",
         };
+
         return escape[match];
       }) ?? ""
     );
@@ -301,13 +224,13 @@ Loading categories...
 
     productSet.forEach((product) => {
       let price = "N/A";
+
       if (product.piecePrice && !isNaN(parseFloat(product.piecePrice))) {
         price = `$${(parseFloat(product.piecePrice) * 2).toFixed(2)}`;
       }
 
-      let imageUrl = product.colorFrontImage || product.styleImage || "";
+      const imageUrl = product.colorFrontImage || product.styleImage || "";
 
-      // 🔒 Sanitize strings
       const cleanBrand = escapeHTML(product.brandName);
       const cleanStyle = escapeHTML(product.styleName);
       const cleanSize = escapeHTML(product.sizeName || "Varies");
@@ -318,50 +241,32 @@ Loading categories...
       );
 
       productList.innerHTML += `
-<div class="product-item" data-product='${encodedProductData}'>
-${cleanBrand} - ${cleanStyle}
-<img src="https://www.ssactivewear.com/${cleanImageUrl}" alt="${cleanStyle}">
-<p>Size: ${cleanSize}</p>
-<p>Price: ${price}</p>
-</div>
-`;
+        <div class="product-item" data-product='${encodedProductData}'>
+          ${cleanBrand} - ${cleanStyle}
+          <img src="https://www.ssactivewear.com/${cleanImageUrl}" alt="${cleanStyle}">
+          <p>Size: ${cleanSize}</p>
+          <p>Price: ${price}</p>
+        </div>
+      `;
     });
 
-    // ✅ Add event listeners to all product items (for opening modal)
     document.querySelectorAll(".product-item").forEach((item) => {
       item.addEventListener("click", function () {
         console.log("✅ Product Clicked! Opening Modal...");
+
         const productData = JSON.parse(this.getAttribute("data-product"));
+
         console.log("🔍 Product Data Sent to Modal:", productData);
+
         openModal(productData);
       });
     });
   }
 
-  // Modal
-  let selectedColor = null;
-
-  function updateSkuFromSelection(variants) {
-    if (!selectedColor || !selectedSize) {
-      document.getElementById("modal-sku").textContent =
-        "Select size & color";
-      return;
-    }
-
-    const match = variants.find(
-      (v) => v.colorName === selectedColor && v.sizeName === selectedSize
-    );
-
-    if (match && match.sku) {
-      document.getElementById("modal-sku").textContent = match.sku;
-    } else {
-      document.getElementById("modal-sku").textContent = "SKU not found";
-    }
-  }
-
   async function openModal(product) {
     try {
       console.log("🔍 Product Data Received in Modal:", product);
+
       if (!product) return;
 
       const modal = document.getElementById("product-modal");
@@ -369,13 +274,15 @@ ${cleanBrand} - ${cleanStyle}
 
       document.getElementById("modal-title").textContent =
         product.styleName || "Unknown Product";
+
       document.getElementById("modal-brand").textContent =
         product.brandName || "Unknown Brand";
+
       document.getElementById("modal-sku").textContent =
         "Select size & color";
 
-      const defaultImage =
-        product.colorFrontImage || product.styleImage || "";
+      const defaultImage = product.colorFrontImage || product.styleImage || "";
+
       document.getElementById(
         "modal-image"
       ).src = `https://www.ssactivewear.com/${defaultImage}`;
@@ -383,14 +290,13 @@ ${cleanBrand} - ${cleanStyle}
       const originalPrice = product.piecePrice
         ? parseFloat(product.piecePrice)
         : 0;
+
       const updatedPrice = originalPrice * 2;
+
       document.getElementById("modal-price").textContent =
         updatedPrice.toFixed(2);
 
-      // 🔥 Fetch full style info from backend
-      const descRes = await fetch(
-        `${API_BASE}/styles/${product.styleID}`
-      );
+      const descRes = await fetch(`${API_BASE}/styles/${product.styleID}`);
       const contentType = descRes.headers.get("content-type");
 
       if (!descRes.ok || contentType.includes("text/html")) {
@@ -401,13 +307,11 @@ ${cleanBrand} - ${cleanStyle}
       const style = Array.isArray(fullData) ? fullData[0] : fullData;
       const variants = style.variants || [];
 
-      const description =
-        style.description || "No description available.";
-      document.getElementById("modal-description").innerHTML =
-        description;
+      const description = style.description || "No description available.";
 
-      const thumbnailContainer =
-        document.getElementById("thumbnail-column");
+      document.getElementById("modal-description").innerHTML = description;
+
+      const thumbnailContainer = document.getElementById("thumbnail-column");
       thumbnailContainer.innerHTML = "";
 
       const imageFields = [
@@ -419,15 +323,20 @@ ${cleanBrand} - ${cleanStyle}
         product.colorBackImage,
         product.styleImage,
       ];
+
       const imagePaths = [...new Set(imageFields.filter(Boolean))];
+
       imagePaths.slice(0, 5).forEach((path) => {
         const thumb = document.createElement("img");
+
         thumb.src = `https://www.ssactivewear.com/${path}`;
         thumb.alt = "Thumbnail";
         thumb.classList.add("thumbnail-img");
+
         thumb.onclick = () => {
           document.getElementById("modal-image").src = thumb.src;
         };
+
         thumbnailContainer.appendChild(thumb);
       });
 
@@ -436,6 +345,7 @@ ${cleanBrand} - ${cleanStyle}
 
       function updateSkuFromSelection() {
         const skuSpan = document.getElementById("modal-sku");
+
         if (!selectedColor || !selectedSize) {
           skuSpan.textContent = "Select size & color";
           return;
@@ -445,10 +355,10 @@ ${cleanBrand} - ${cleanStyle}
           (v) =>
             v.colorName === selectedColor && v.sizeName === selectedSize
         );
+
         skuSpan.textContent = match?.sku || "SKU not found";
       }
 
-      // ✅ Render colors
       const colorContainer = document.getElementById("color-options");
       colorContainer.innerHTML = "";
 
@@ -456,8 +366,8 @@ ${cleanBrand} - ${cleanStyle}
         const seenColors = new Set();
 
         variants.forEach((variant) => {
-          if (!variant.colorName || seenColors.has(variant.colorName))
-            return;
+          if (!variant.colorName || seenColors.has(variant.colorName)) return;
+
           seenColors.add(variant.colorName);
 
           const colorImageUrl = variant.colorFrontImage
@@ -479,11 +389,13 @@ ${cleanBrand} - ${cleanStyle}
 
           colorSwatch.onclick = function (event) {
             selectedColor = variant.colorName;
+
             document.getElementById("modal-image").src = colorImageUrl;
 
             document
               .querySelectorAll(".color-swatch")
               .forEach((el) => el.classList.remove("selected-color"));
+
             event.target.classList.add("selected-color");
 
             const imageSet = [
@@ -495,15 +407,21 @@ ${cleanBrand} - ${cleanStyle}
               variant.colorBackImage,
               product.styleImage,
             ];
+
             const images = [...new Set(imageSet.filter(Boolean))];
+
             thumbnailContainer.innerHTML = "";
+
             images.slice(0, 5).forEach((imgPath) => {
               const thumb = document.createElement("img");
+
               thumb.src = `https://www.ssactivewear.com/${imgPath}`;
               thumb.classList.add("thumbnail-img");
+
               thumb.onclick = () => {
                 document.getElementById("modal-image").src = thumb.src;
               };
+
               thumbnailContainer.appendChild(thumb);
             });
 
@@ -516,7 +434,6 @@ ${cleanBrand} - ${cleanStyle}
         colorContainer.innerHTML = `<p style="color: #ddd;">No Colors Available</p>`;
       }
 
-      // ✅ Render sizes
       const sizeContainer = document.getElementById("modal-sizes");
       sizeContainer.innerHTML = "";
 
@@ -527,13 +444,16 @@ ${cleanBrand} - ${cleanStyle}
 
         if (uniqueSizes.length > 0) {
           const label = document.createElement("div");
+
           label.textContent = "Available Sizes:";
           label.style.fontWeight = "bold";
           label.style.marginTop = "1rem";
+
           sizeContainer.appendChild(label);
 
           uniqueSizes.forEach((size) => {
             const sizeTag = document.createElement("span");
+
             sizeTag.textContent = size;
             sizeTag.classList.add("size-tag");
             sizeTag.style.cursor = "pointer";
@@ -549,6 +469,7 @@ ${cleanBrand} - ${cleanStyle}
 
               if (matched && matched.piecePrice) {
                 const updated = parseFloat(matched.piecePrice) * 2;
+
                 document.getElementById("modal-price").textContent =
                   updated.toFixed(2);
               }
@@ -556,6 +477,7 @@ ${cleanBrand} - ${cleanStyle}
               document
                 .querySelectorAll(".size-tag")
                 .forEach((el) => el.classList.remove("selected-size"));
+
               sizeTag.classList.add("selected-size");
 
               updateSkuFromSelection();
@@ -568,8 +490,8 @@ ${cleanBrand} - ${cleanStyle}
         }
       }
 
-      // ✅ Show modal
       modal.style.display = "flex";
+
       console.log("✅ Modal should be visible now!");
     } catch (error) {
       console.error("❌ ERROR in openModal():", error);
@@ -579,7 +501,6 @@ ${cleanBrand} - ${cleanStyle}
   function closeModal() {
     document.getElementById("product-modal").style.display = "none";
   }
-  window.expandBrandCards = expandBrandCards;
 
   window.filterByCategory = filterByCategory;
   window.openModal = openModal;
@@ -596,10 +517,10 @@ function getColorHex(colorName, product) {
     console.warn(
       `⚠️ No variants available for ${colorName}, using fallback color.`
     );
-    return "#CCCCCC"; // Default light gray
+
+    return "#CCCCCC";
   }
 
-  // ✅ Try to find the variant in the product
   const variant = product.variants.find((v) => v.colorName === colorName);
 
   if (variant) {
@@ -607,31 +528,20 @@ function getColorHex(colorName, product) {
       console.log(
         `🖼️ Using Swatch Image for ${colorName}: https://www.ssactivewear.com/${variant.colorSwatchImage}`
       );
-      return `url(https://www.ssactivewear.com/${variant.colorSwatchImage})`; // ✅ Use image instead
-    } else if (variant.color1) {
+
+      return `url(https://www.ssactivewear.com/${variant.colorSwatchImage})`;
+    }
+
+    if (variant.color1) {
       console.log(`✅ Using API HEX for ${colorName}: ${variant.color1}`);
-      return variant.color1; // ✅ Use API hex value if available
+
+      return variant.color1;
     }
   }
 
   console.warn(
     `⚠️ No color1 or swatch image found for ${colorName}, using fallback.`
   );
-  return "#CCCCCC"; // Default to gray if missing
+
+  return "#CCCCCC";
 }
-
-function updateColor(color, imageUrl) {
-  console.log(`🎨 Color Selected: ${color}, Image: ${imageUrl}`);
-
-  // ✅ Update Image in Modal
-  document.getElementById("modal-image").src = imageUrl;
-
-  // ✅ Remove 'selected-color' from all swatches
-  document
-    .querySelectorAll(".color-swatch")
-    .forEach((swatch) => swatch.classList.remove("selected-color"));
-
-  // ✅ Add 'selected-color' class to the clicked swatch
-  event.target.classList.add("selected-color");
-}
-   
