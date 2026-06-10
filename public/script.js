@@ -259,36 +259,63 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderProducts() {
-    const productList = document.getElementById("product-list");
-    productList.innerHTML = "";
+  const productList = document.getElementById("product-list");
+  productList.innerHTML = "";
 
-    productSet.forEach((product) => {
-      let price = "N/A";
+  productSet.forEach((product) => {
+    const variantWithPrice = product.variants?.find(
+      (variant) =>
+        variant.piecePrice &&
+        !isNaN(parseFloat(variant.piecePrice))
+    );
 
-      if (product.piecePrice && !isNaN(parseFloat(product.piecePrice))) {
-        price = `$${(parseFloat(product.piecePrice) * 2).toFixed(2)}`;
-      }
+    const rawPrice =
+      product.piecePrice ||
+      variantWithPrice?.piecePrice ||
+      null;
+console.log("PRICE CHECK:", {
+  parent: product.piecePrice,
+  firstVariant: product.variants?.[0]?.piecePrice,
+  product,
+});
+    let price = "N/A";
 
-      const imageUrl = product.colorFrontImage || product.styleImage || "";
+    if (rawPrice && !isNaN(parseFloat(rawPrice))) {
+      price = `$${(parseFloat(rawPrice) * 2).toFixed(2)}`;
+    }
 
-      const cleanBrand = escapeHTML(product.brandName);
-      const cleanStyle = escapeHTML(product.styleName);
-      const cleanSize = escapeHTML(product.sizeName || "Varies");
-      const cleanImageUrl = escapeHTML(imageUrl);
-      const encodedProductData = JSON.stringify(product).replace(
-        /'/g,
-        "&apos;"
-      );
+    const imageUrl = product.colorFrontImage || product.styleImage || "";
 
-      productList.innerHTML += `
-        <div class="product-item" data-product='${encodedProductData}'>
-          ${cleanBrand} - ${cleanStyle}
-          <img src="https://www.ssactivewear.com/${cleanImageUrl}" alt="${cleanStyle}">
-          <p>Size: ${cleanSize}</p>
-          <p>Price: ${price}</p>
-        </div>
-      `;
+    const cleanBrand = escapeHTML(product.brandName);
+    const cleanStyle = escapeHTML(product.styleName);
+    const cleanSize = escapeHTML(product.sizeName || "Varies");
+    const cleanImageUrl = escapeHTML(imageUrl);
+    const encodedProductData = JSON.stringify(product).replace(
+      /'/g,
+      "&apos;"
+    );
+
+    productList.innerHTML += `
+      <div class="product-item" data-product='${encodedProductData}'>
+        ${cleanBrand} - ${cleanStyle}
+        <img src="https://www.ssactivewear.com/${cleanImageUrl}" alt="${cleanStyle}">
+        <p>Size: ${cleanSize}</p>
+        <p>Price: ${price}</p>
+      </div>
+    `;
+  });
+
+  document.querySelectorAll(".product-item").forEach((item) => {
+    item.addEventListener("click", function () {
+      console.log("✅ Product Clicked! Opening Modal...");
+
+      const productData = JSON.parse(this.getAttribute("data-product"));
+
+      console.log("🔍 Product Data Sent to Modal:", productData);
+
+      openModal(productData);
     });
+  });
 
     document.querySelectorAll(".product-item").forEach((item) => {
       item.addEventListener("click", function () {
