@@ -160,6 +160,14 @@ app.get("/products/:brandId", async (req, res) => {
       (product) => product.brandID == brandId
     );
 
+    console.log("🔎 FIRST MATCHING PRODUCT:", matchingProducts[0]);
+console.log("🔎 PRICE FIELDS:", {
+  piecePrice: matchingProducts[0]?.piecePrice,
+  customerPrice: matchingProducts[0]?.customerPrice,
+  salePrice: matchingProducts[0]?.salePrice,
+  price: matchingProducts[0]?.price,
+});
+
     if (matchingProducts.length === 0) {
       console.warn(`⚠️ No products found for brand ${brandId}.`);
     } else {
